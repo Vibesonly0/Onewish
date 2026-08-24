@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Happy Birthday Laiba! 🎉</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; min-height: 100vh; padding: 20px 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-x: hidden; }
+    .card { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 20px; padding: 24px 18px; width: 100%; max-width: 380px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2); text-align: center; margin-bottom: 20px; }
+    h1 { font-size: 1.8rem; margin-bottom: 8px; color: #ffd166; }
+    p { font-size: 0.95rem; line-height: 1.4; opacity: 0.9; margin-bottom: 15px; }
+    .btn { background: #ff477e; color: white; border: none; padding: 12px 20px; border-radius: 25px; font-weight: bold; font-size: 0.9rem; cursor: pointer; width: 100%; margin-top: 10px; transition: transform 0.1s ease; }
+    .btn:active { transform: scale(0.97); }
+    .option-btn { background: rgba(255, 255, 255, 0.2); text-align: left; padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; font-size: 0.88rem; width: 100%; border: 1px solid rgba(255,255,255,0.1); color: white; cursor: pointer; }
+    .cake-container { font-size: 3rem; margin: 15px 0; cursor: pointer; user-select: none; }
+    .hidden { display: none; }
+    .confetti { position: fixed; width: 10px; height: 10px; top: -10px; z-index: 999; animation: fall linear infinite; }
+    @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <!-- Screen 1: Welcome -->
+  <div id="screen-1" class="card">
+    <h1>Happy Birthday! 🎈</h1>
+    <p>Welcome, <b>Laiba</b>! A secret surprise has been locked behind a quick challenge. Are you ready?</p>
+    <button class="btn" onclick="nextScreen(2)">Start the Challenge 🔥</button>
+  </div>
+
+  <!-- Screen 2: Trivia Quiz -->
+  <div id="screen-2" class="card hidden">
+    <p style="text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; color: #ffd166;">Level 1: The Birthday Quiz</p>
+    <h2 style="font-size: 1.2rem; margin-bottom: 15px;">What is today's main rule for Laiba?</h2>
+    <button class="option-btn" onclick="answerQuiz(false)">A) Study all day</button>
+    <button class="option-btn" onclick="answerQuiz(false)">B) Answer work messages</button>
+    <button class="option-btn" onclick="answerQuiz(true)">C) Eat cake & be celebrated 🥳</button>
+    <p id="quiz-msg" style="color: #ff477e; margin-top: 10px; font-weight: bold; font-size: 0.85rem;"></p>
+  </div>
+
+  <!-- Screen 3: Interactive Mini-Game -->
+  <div id="screen-3" class="card hidden">
+    <p style="text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; color: #ffd166;">Level 2: Light the Candles</p>
+    <p>Tap the cake <b>3 times</b> to light the candles and reveal the gift!</p>
+    <div class="cake-container" onclick="tapCake()">
+      <span id="cake-emoji">🎂</span>
+    </div>
+    <p style="font-size: 0.85rem;">Taps: <span id="tap-count" style="font-weight: bold; color: #ffd166;">0</span> / 3</p>
+  </div>
+
+  <!-- Screen 4: Final Gift -->
+  <div id="screen-4" class="card hidden">
+    <h1>🎉 SURPRISE! 🎉</h1>
+    <p style="font-size: 1.1rem; color: #ffd166; font-weight: bold;">Dear Laiba,</p>
+    <p>May your year ahead be full of joy, zero stress, incredible achievements, and endless reasons to smile!</p>
+    <p>Have the most amazing birthday today! ✨</p>
+    <button class="btn" onclick="makeConfetti()">Blast More Confetti! 🎊</button>
+  </div>
+
+  <script>
+    function nextScreen(num) {
+      document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+      document.getElementById('screen-' + num).classList.remove('hidden');
+    }
+
+    function answerQuiz(correct) {
+      if (correct) {
+        nextScreen(3);
+      } else {
+        document.getElementById('quiz-msg').innerText = "Wrong answer! Try option C 😉";
+      }
+    }
+
+    let count = 0;
+    function tapCake() {
+      count++;
+      document.getElementById('tap-count').innerText = count;
+      if (count === 1) document.getElementById('cake-emoji').innerText = "🕯️🎂";
+      if (count === 2) document.getElementById('cake-emoji').innerText = "🔥🎂🔥";
+      if (count >= 3) {
+        makeConfetti();
+        nextScreen(4);
+      }
+    }
+
+    function makeConfetti() {
+      const colors = ['#ffd166', '#ff477e', '#06d6a0', '#118ab2', '#ffffff'];
+      for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 4000);
+      }
+    }
+  </script>
+</body>
+</html>
